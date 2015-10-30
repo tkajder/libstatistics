@@ -2,8 +2,6 @@
 
 Calculates the mean, median, mode, and range of a list of numbers.
 
-This project is a simple exploration of the `ctypes` module of python.
-
 This project was developed on and for a debian jessie system with python3.
 
 To compile the shared library:
