@@ -10,6 +10,9 @@ import sys
 
 class Statistics:
 
+    """A simple container for mean, median, mode, range, and count
+        with string formatting"""
+
     def __init__(self, mean, median, mode, rng, count):
         self.mean = mean
         self.median = median
@@ -18,11 +21,7 @@ class Statistics:
         self.count = count
 
     def __str__(self):
-        return 'Mean:\t{:.8f}\n'
-        'Median:\t{:.8f}\n'
-        'Mode:\t{:.8f}\n'
-        'Range\t{:.8f}\n'
-        'Count:\t{:,}'.format(
+        return 'Mean:\t{:.8f}\nMedian:\t{:.8f}\nMode:\t{:.8f}\nRange\t{:.8f}\nCount:\t{:,}'.format(
             self.mean, self.median, self.mode, self.rng, self.count)
 
 # Load the libstats shared c library
@@ -40,6 +39,7 @@ libstats.range.restype = ctypes.c_double
 
 def cli():
     '''Parse the command line settings and arguments'''
+
     parser = argparse.ArgumentParser(
         description='Print the mean, median, mode, and '
         'range of a comma separated list of numbers')
@@ -53,8 +53,9 @@ def cli():
 
 
 def parse_csv_file(csvfile):
-    '''A generator that returns all of the elements in the first row of'''
-    '''the csv as floats'''
+    '''A generator that returns all of the elements in the first row of
+    the csv as floats'''
+
     reader = csv.reader(csvfile, delimiter=',')
     row = next(reader)
     for element in row:
@@ -63,6 +64,7 @@ def parse_csv_file(csvfile):
 
 def check_error(errcode):
     '''Check the errno and exit with message if the errno indicates error'''
+
     if errcode != 0:
         print('{}: {}'.format(
             errno.errorcode[errcode], os.strerror(errcode)), file=sys.stderr)
@@ -70,8 +72,9 @@ def check_error(errcode):
 
 
 def calculate_statistics(numbers):
-    '''Calculate the mean, median, mode, and range using the shared'''
-    '''statistics library'''
+    '''Calculate the mean, median, mode, and range using the shared
+    statistics library'''
+
     # Make the arr and arrlen values ctypes compatible
     arr = (ctypes.c_double * len(numbers))(*numbers)
     arrlen = ctypes.c_size_t(len(numbers))
